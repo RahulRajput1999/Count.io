@@ -1,66 +1,55 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useEffect } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import SplashScreen from 'react-native-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './screens/home';
+import IntroScreen from './screens/intro';
+import SpecialScreen from './screens/special';
+import { connect } from 'react-redux';
+
+const Stack = createNativeStackNavigator();
 
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+function App(props): JSX.Element {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+  // console.log(props.name)
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      
-    </SafeAreaView>
-  );
+    <NavigationContainer>
+      <Stack.Navigator>
+        {(props.name === "") &&
+          <Stack.Screen
+            name="Intro"
+            component={IntroScreen}
+            options={{ headerShown: false }} />
+        }
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: 'Count.IO' }}
+        />
+        <Stack.Screen
+          name="Special"
+          component={SpecialScreen}
+          options={{ title: 'Count.IO', headerShown: false }}
+        />
+
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+const mapStateToProps = (state) => {
+  // console.log(state)
+  const { name } = state.name;
+  return { name };
+};
 
-export default App;
+
+export default connect(mapStateToProps)(App);
