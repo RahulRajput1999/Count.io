@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/home';
 import IntroScreen from './screens/intro';
 import SpecialScreen from './screens/special';
+import AddCounterScreen from './screens/addCounter';
 import { connect } from 'react-redux';
 
 const Stack = createNativeStackNavigator();
@@ -32,12 +33,17 @@ function App(props): JSX.Element {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Count.IO' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Special"
           component={SpecialScreen}
           options={{ title: 'Count.IO', headerShown: false }}
+        />
+        <Stack.Screen
+          name="Add Counter"
+          component={AddCounterScreen}
+          options={{ headerShown: false }}
         />
 
       </Stack.Navigator>

@@ -13,7 +13,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers(
-    { count: countReducer, name: nameReducer }
+    { counters: countReducer, name: nameReducer }
 );
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
